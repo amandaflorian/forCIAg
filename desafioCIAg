@@ -1,0 +1,94 @@
+import pickle
+arquivo0=open('tarefas.txt', 'a+')
+tarefas = []
+
+def mostra_dados(nome, arquivo):
+    print("Nome da tarefa: {} Informação da tarefa: {}".format(nome, arquivo))
+
+
+def pede_nome_arquivo():
+    return input("Nome do arquivo: ")
+
+
+def pesquisa(nome):
+    mnome = nome.lower()
+    for p, e in enumerate(tarefas):
+        if e[0].lower() == mnome:
+            return p
+    return None
+
+
+def novo():
+    global tarefas
+    nome = input("Nome da tarefa: ")
+    arquivo = input("Informação da tarefa: ")
+    tarefas.append([nome, arquivo])
+
+
+def apagar():
+    global tarefas
+    nome = input("Nome: ")
+    p = pesquisa(nome)
+    if p is not None:
+        del tarefas[p]
+    else:
+        print("Nome não encontrado!!")
+
+
+def alterar():
+    p = pesquisa(input("Nome: "))
+    if p is not None:
+        nome = tarefas[p][0]
+        arquivo = tarefas[p][1]
+        print("Encontrado:")
+        mostra_dados(nome, arquivo)
+        nome = input("Nome da tarefa: ")
+        arquivo = input("Informação da tarefa:  ")
+        tarefas[p] = [nome, arquivo]
+    else:
+        print("Nome não encontrado!!")
+
+
+def listar():
+    print("\nDados\n------")
+    for e in tarefas:
+        mostra_dados(e[0], e[1])
+    print("------\n")
+
+
+def valida_faixa_inteiro(pergunta, inicio, fim):
+    while True:
+        try:
+            valor = int(input(pergunta))
+            if inicio <= valor <= fim:
+                return valor
+        except ValueError:
+            print("Valor inválido, favor digitar entre {} e {}".format(inicio, fim))
+
+
+def menu():
+    print("""
+    1 - Novo
+    2 - Alterar
+    3 - Apagar
+    4 - Listar
+        
+    0 - Sair
+    """)
+    return valida_faixa_inteiro("Escolha uma opção: ", 0, 4)
+
+
+while True:
+    op = menu()
+    if op == 0:
+        break
+    elif op == 1:
+        novo()
+    elif op == 2:
+        alterar()
+    elif op == 3:
+        apagar()
+    elif op == 4:
+        listar()
+
+aquivo0.close()
